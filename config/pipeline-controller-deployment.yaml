@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: pipeline-controller
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: pipeline-controller
+        # This is the import path for the Go binary to build and run.
+        image: github.com/topherbullock/knative-build-pipeline-poc
+        ports:
+        - containerPort: 8080
