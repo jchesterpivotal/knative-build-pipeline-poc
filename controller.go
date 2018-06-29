@@ -68,8 +68,8 @@ type Controller struct {
 
 	deploymentsLister appslisters.DeploymentLister
 	deploymentsSynced cache.InformerSynced
-	pipelinesLister        listers.PipelineLister
-	pipelinesSynced        cache.InformerSynced
+	pipelinesLister   listers.PipelineLister
+	pipelinesSynced   cache.InformerSynced
 
 	// workqueue is a rate limited work queue. This is used to queue work to be
 	// processed instead of performing it as soon as a change happens. This
@@ -104,8 +104,8 @@ func NewController(
 		sampleclientset:   sampleclientset,
 		deploymentsLister: deploymentInformer.Lister(),
 		deploymentsSynced: deploymentInformer.Informer().HasSynced,
-		pipelinesLister:        pipelineInformer.Lister(),
-		pipelinesSynced:        pipelineInformer.Informer().HasSynced,
+		pipelinesLister:   pipelineInformer.Lister(),
+		pipelinesSynced:   pipelineInformer.Informer().HasSynced,
 		workqueue:         workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "Pipelines"),
 		recorder:          recorder,
 	}
@@ -260,7 +260,6 @@ func (c *Controller) syncHandler(key string) error {
 	c.recorder.Event(pipeline, corev1.EventTypeNormal, SuccessSynced, MessageResourceSynced)
 	return nil
 }
-
 
 // enqueuePipeline takes a Pipeline resource and converts it into a namespace/name
 // string which is then put onto the work queue. This method should *not* be
