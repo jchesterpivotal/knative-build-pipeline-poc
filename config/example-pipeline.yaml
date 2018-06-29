@@ -1,0 +1,7 @@
+---
+apiVersion: concourse-ci.org/v1alpha1
+kind: Pipeline
+metadata:
+  name: pipeline.example.com
+spec:
+  name: The spec name
