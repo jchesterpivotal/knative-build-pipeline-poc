@@ -1,0 +1,6 @@
+apiVersion: concourse.concourse-ci.org/v5alpha1
+kind: Pipeline
+metadata:
+  name: pipeline-example
+spec:
+  foo: bar
