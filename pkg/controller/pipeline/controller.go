@@ -42,6 +42,7 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 }
 
 // +kubebuilder:controller:group=concourse,version=v5alpha1,kind=Pipeline,resource=pipelines
+// +kubebuilder:rbac:groups=concourse,resources=pipelines,verbs=get;watch;list;create;update
 type PipelineController struct {
 	// INSERT ADDITIONAL FIELDS HERE
 	pipelineLister concoursev5alpha1lister.PipelineLister

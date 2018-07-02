@@ -30,7 +30,9 @@ type PipelineSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "kubebuilder generate" to regenerate code after modifying this file
 
-	Name string `json:"name"`
+	Name      string   `json:"name"`
+	Resources []string `json:"resources"`
+	Jobs      []string `json:"jobs"`
 }
 
 // PipelineStatus defines the observed state of Pipeline

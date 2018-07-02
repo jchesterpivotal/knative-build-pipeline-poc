@@ -56,6 +56,17 @@ func init() {
 		Resources: []string{"*"},
 		Verbs:     []string{"*"},
 	})
+	Injector.PolicyRules = append(Injector.PolicyRules, rbacv1.PolicyRule{
+		APIGroups: []string{
+			"concourse",
+		},
+		Resources: []string{
+			"pipelines",
+		},
+		Verbs: []string{
+			"create", "get", "list", "update", "watch",
+		},
+	})
 	// Inject GroupVersions
 	Injector.GroupVersions = append(Injector.GroupVersions, schema.GroupVersion{
 		Group:   "concourse.concourse-ci.org",

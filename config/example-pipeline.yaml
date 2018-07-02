@@ -1,7 +1,9 @@
 ---
-apiVersion: concourse-ci.org/v1alpha1
+apiVersion: concourse.concourse-ci.org/v5alpha1
 kind: Pipeline
 metadata:
   name: pipeline.example.com
 spec:
   name: The spec name
+  resources:
+  jobs:

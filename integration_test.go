@@ -46,15 +46,17 @@ var _ = Describe("Integration", func() {
 		session, err := gexec.Start(kubectlCmd, GinkgoWriter, GinkgoWriter)
 		Expect(err).ShouldNot(HaveOccurred())
 
-		Eventually(session.Out).Should(gbytes.Say("pipeline.concourse-ci.org/pipeline.example.com created"))
+		Eventually(session.Out).Should(gbytes.Say("pipeline.concourse.concourse-ci.org/pipeline.example.com created"))
 	})
 
-	It("Can retrieve a pipeline with kubectl", func() {
-		kubectlCmd := exec.Command("kubectl", "get", "pipelines")
-		session, err := gexec.Start(kubectlCmd, GinkgoWriter, GinkgoWriter)
-		Expect(err).ShouldNot(HaveOccurred())
+	Describe("The information given by 'kubectl get'", func() {
+		It("Contains a URL for the pipeline", func() {
+			kubectlCmd := exec.Command("kubectl", "get", "pipelines")
+			session, err := gexec.Start(kubectlCmd, GinkgoWriter, GinkgoWriter)
+			Expect(err).ShouldNot(HaveOccurred())
 
-		Eventually(session.Out).Should(gbytes.Say(`NAME                   CREATED AT
-pipeline.example.com   [\d+]s`))
+			Eventually(session.Out).Should(gbytes.Say(`NAME                   CREATED AT   URL
+pipeline.example.com   [\d+]s       http://concourse-web.concourse.svc.cluster.local/teams/main/pipelines/example`))
+		})
 	})
 })
