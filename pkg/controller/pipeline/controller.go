@@ -29,15 +29,46 @@ import (
 	concoursev5alpha1lister "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/listers/concourse/v5alpha1"
 
 	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject/args"
+
+	"github.com/concourse/go-concourse/concourse"
+	"net/http"
 )
+
+var concourseClient concourse.Client
 
 // EDIT THIS FILE
 // This files was created by "kubebuilder create resource" for you to edit.
 // Controller implementation logic for Pipeline resources goes here.
 
 func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
-	// INSERT YOUR CODE HERE
-	log.Printf("Implement the Reconcile function on pipeline.PipelineController to reconcile %s\n", k.Name)
+	httpClient := &http.Client{}
+	concourseClient = concourse.NewClient(
+		"http://concourse-web.concourse.svc.cluster.local:8080",
+		httpClient,
+		true)
+
+	team := concourseClient.Team(k.Namespace)
+	_, _, _, err := team.CreateOrUpdatePipelineConfig(
+		k.Name,
+		"1",
+		[]byte{},
+	)
+
+	log.Printf("reconcile key: %s", k.String())
+	pipelineInK8s, err := bc.pipelineLister.Pipelines(k.Namespace).Get(k.Name)
+	if err != nil {
+		log.Printf("Look up pipeline resource: %s", err.Error())
+		return err
+	}
+	log.Printf("\npipelineInK8s: %+v", pipelineInK8s)
+
+	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{PipelineSet: true}
+	_, err = bc.pipelineclient.Pipelines(k.Namespace).UpdateStatus(pipelineInK8s)
+	if err != nil {
+		log.Printf("Failed to update pipeline status: %s", err.Error())
+		return err
+	}
+
 	return nil
 }
 

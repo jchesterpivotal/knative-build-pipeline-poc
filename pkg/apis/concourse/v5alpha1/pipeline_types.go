@@ -30,7 +30,6 @@ type PipelineSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "kubebuilder generate" to regenerate code after modifying this file
 
-	Name      string   `json:"name"`
 	Resources []string `json:"resources"`
 	Jobs      []string `json:"jobs"`
 }
@@ -40,7 +39,7 @@ type PipelineStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "kubebuilder generate" to regenerate code after modifying this file
 
-	WillItBlend bool `json:"willItBlend"`
+	PipelineSet bool `json:"pipelineSet"`
 }
 
 // +genclient
@@ -49,6 +48,7 @@ type PipelineStatus struct {
 // Pipeline
 // +k8s:openapi-gen=true
 // +kubebuilder:resource:path=pipelines
+// +kubebuilder:subresource:status
 type Pipeline struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

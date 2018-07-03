@@ -183,3 +183,7 @@ name = "github.com/kubernetes-sigs/kubebuilder"
 version="0.1.12"
 
 
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/concourse/go-concourse"

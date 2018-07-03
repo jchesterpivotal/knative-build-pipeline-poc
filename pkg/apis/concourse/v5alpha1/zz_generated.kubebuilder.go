@@ -106,9 +106,6 @@ var (
 										},
 									},
 								},
-								"name": v1beta1.JSONSchemaProps{
-									Type: "string",
-								},
 								"resources": v1beta1.JSONSchemaProps{
 									Type: "array",
 									Items: &v1beta1.JSONSchemaPropsOrArray{
@@ -119,22 +116,24 @@ var (
 								},
 							},
 							Required: []string{
-								"name",
 								"resources",
 								"jobs",
 							}},
 						"status": v1beta1.JSONSchemaProps{
 							Type: "object",
 							Properties: map[string]v1beta1.JSONSchemaProps{
-								"willItBlend": v1beta1.JSONSchemaProps{
+								"pipelineSet": v1beta1.JSONSchemaProps{
 									Type: "boolean",
 								},
 							},
 							Required: []string{
-								"willItBlend",
+								"pipelineSet",
 							}},
 					},
 				},
+			},
+			Subresources: &v1beta1.CustomResourceSubresources{
+				Status: &v1beta1.CustomResourceSubresourceStatus{},
 			},
 		},
 	}

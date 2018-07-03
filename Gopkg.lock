@@ -19,6 +19,31 @@
   revision = "de5bf2ad457846296e2031421a34e2568e304e35"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/bmizerany/pat"
+  packages = ["."]
+  revision = "6226ea591a40176dd3ff9cd8eff81ed6ca721a00"
+
+[[projects]]
+  name = "github.com/concourse/atc"
+  packages = [
+    ".",
+    "event"
+  ]
+  revision = "01ec08189c4ca38868fa89778e570eaf4c2dc7e2"
+  version = "v3.14.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/concourse/go-concourse"
+  packages = [
+    "concourse",
+    "concourse/eventstream",
+    "concourse/internal"
+  ]
+  revision = "f4422415225c685f46bfc37a69bbe961ffe1d3c5"
+
+[[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
@@ -96,6 +121,12 @@
   revision = "24818f796faf91cd76ec7bddd72458fbced7a6c1"
 
 [[projects]]
+  name = "github.com/google/jsonapi"
+  packages = ["."]
+  revision = "46d3ced0434461be12e555852e2f1a9ed382e139"
+  version = "1.0.0"
+
+[[projects]]
   name = "github.com/googleapis/gnostic"
   packages = [
     "OpenAPIv2",
@@ -123,6 +154,12 @@
   packages = ["."]
   revision = "9316a62528ac99aaecb4e47eadd6dc8aa6533d58"
   version = "v0.3.5"
+
+[[projects]]
+  name = "github.com/jessevdk/go-flags"
+  packages = ["."]
+  revision = "c6ca198ec95c841fdb89fc0de7496fed11ab854e"
+  version = "v1.4.0"
 
 [[projects]]
   name = "github.com/json-iterator/go"
@@ -158,6 +195,12 @@
     "jwriter"
   ]
   revision = "8b799c424f57fa123fc63a99d6383bc6e4c02578"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mitchellh/mapstructure"
+  packages = ["."]
+  revision = "bb74f1db0675b241733089d5a1faa5dd8b0ef57b"
 
 [[projects]]
   name = "github.com/modern-go/concurrent"
@@ -218,10 +261,28 @@
   version = "v1.4.0"
 
 [[projects]]
+  name = "github.com/peterhellberg/link"
+  packages = ["."]
+  revision = "d1cebc7ea14a5fc0de7cb4a45acae773161642c6"
+  version = "v1.0.0"
+
+[[projects]]
   name = "github.com/spf13/pflag"
   packages = ["."]
   revision = "583c0c0531f06d5278b7d917446061adc344b5cd"
   version = "v1.0.1"
+
+[[projects]]
+  name = "github.com/tedsuo/rata"
+  packages = ["."]
+  revision = "0649c23705dfb45a9693b668c4fc1c0666f485d9"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/vito/go-sse"
+  packages = ["sse"]
+  revision = "fd69d275caac5d78d793e77ddbe9bd2001d9b88d"
 
 [[projects]]
   name = "golang.org/x/crypto"
@@ -584,6 +645,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e21223559a832db3c584919de23519c62b78d389f4b63e6ffed8134b61eae4b1"
+  inputs-digest = "d82fdcfecac14e553cdf537155b575c1498e97c45c173eb12a1531bca2a50d44"
   solver-name = "gps-cdcl"
   solver-version = 1
