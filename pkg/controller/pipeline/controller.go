@@ -61,7 +61,14 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		return err
 	}
 
-	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{PipelineSet: true}
+	info, err := concourseClient.GetInfo()
+	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
+		ConcourseAPIUrl:        concourseClient.URL(),
+		ConcourseVersion:       info.Version,
+		ConcourseWorkerVersion: info.WorkerVersion,
+		PipelineSet:            false,
+	}
+
 	_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)
 	if err != nil {
 		log.Printf("Failed to update pipeline status for key '%s': %s", k, err.Error())

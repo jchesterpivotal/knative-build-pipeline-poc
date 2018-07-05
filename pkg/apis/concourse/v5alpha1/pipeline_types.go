@@ -40,6 +40,10 @@ type PipelineStatus struct {
 	// Important: Run "kubebuilder generate" to regenerate code after modifying this file
 
 	PipelineSet bool `json:"pipelineSet"`
+
+	ConcourseAPIUrl        string `json:"concourseApiUrl"`
+	ConcourseVersion       string `json:"concourseVersion"`
+	ConcourseWorkerVersion string `json:"concourseWorkerVersion"`
 }
 
 // +genclient

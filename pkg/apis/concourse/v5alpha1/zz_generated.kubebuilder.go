@@ -122,12 +122,24 @@ var (
 						"status": v1beta1.JSONSchemaProps{
 							Type: "object",
 							Properties: map[string]v1beta1.JSONSchemaProps{
+								"concourseApiUrl": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"concourseVersion": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"concourseWorkerVersion": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
 								"pipelineSet": v1beta1.JSONSchemaProps{
 									Type: "boolean",
 								},
 							},
 							Required: []string{
 								"pipelineSet",
+								"concourseApiUrl",
+								"concourseVersion",
+								"concourseWorkerVersion",
 							}},
 					},
 				},
