@@ -31,6 +31,7 @@ import (
 	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject/args"
 
 	"github.com/concourse/go-concourse/concourse"
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"net/http"
 )
 
@@ -54,18 +55,16 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		[]byte{},
 	)
 
-	log.Printf("reconcile key: %s", k.String())
-	pipelineInK8s, err := bc.pipelineLister.Pipelines(k.Namespace).Get(k.Name)
+	pipelineInK8s, err := bc.pipelineclient.Pipelines(k.Namespace).Get(k.Name, v1.GetOptions{IncludeUninitialized: false})
 	if err != nil {
-		log.Printf("Look up pipeline resource: %s", err.Error())
+		log.Printf("Failed to get pipeline resource for key '%s': %s", k, err.Error())
 		return err
 	}
-	log.Printf("\npipelineInK8s: %+v", pipelineInK8s)
 
 	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{PipelineSet: true}
-	_, err = bc.pipelineclient.Pipelines(k.Namespace).UpdateStatus(pipelineInK8s)
+	_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)
 	if err != nil {
-		log.Printf("Failed to update pipeline status: %s", err.Error())
+		log.Printf("Failed to update pipeline status for key '%s': %s", k, err.Error())
 		return err
 	}
 
