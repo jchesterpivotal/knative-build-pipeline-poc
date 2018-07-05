@@ -31,8 +31,8 @@ import (
 	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject/args"
 
 	"github.com/concourse/go-concourse/concourse"
+
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
-	"net/http"
 )
 
 var concourseClient concourse.Client
@@ -42,14 +42,18 @@ var concourseClient concourse.Client
 // Controller implementation logic for Pipeline resources goes here.
 
 func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
-	httpClient := &http.Client{}
-	concourseClient = concourse.NewClient(
+	concourseClient, err := ConcourseClient(
 		"http://concourse-web.concourse.svc.cluster.local:8080",
-		httpClient,
-		true)
+		"concourse",
+		"concourse",
+	)
+	if err != nil {
+		log.Printf("Failed to set up a Concourse client for key '%s': %s", k, err.Error())
+		return err
+	}
 
-	team := concourseClient.Team(k.Namespace)
-	_, _, _, err := team.CreateOrUpdatePipelineConfig(
+	team := concourseClient.Team("main")
+	_, _, _, err = team.CreateOrUpdatePipelineConfig(
 		k.Name,
 		"1",
 		[]byte{},
@@ -67,6 +71,10 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		ConcourseVersion:       info.Version,
 		ConcourseWorkerVersion: info.WorkerVersion,
 		PipelineSet:            false,
+	}
+	if err != nil {
+		log.Printf("Failed to get Concourse /info for key '%s': %s", k, err.Error())
+		return err
 	}
 
 	_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)
