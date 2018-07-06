@@ -55,8 +55,8 @@ func legacyAuth(atcUrl string) (string, string, error) {
 	}
 
 	type authToken struct {
-		Type  string `json:"token_type"`
-		Value string `json:"token_value"`
+		Type  string `json:"type"`
+		Value string `json:"value"`
 	}
 
 	defer tokenResponse.Body.Close()
