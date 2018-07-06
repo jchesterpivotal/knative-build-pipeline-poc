@@ -39,7 +39,10 @@ type PipelineStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "kubebuilder generate" to regenerate code after modifying this file
 
-	PipelineSet bool `json:"pipelineSet"`
+	PipelineSet bool   `json:"pipelineSet"`
+	PipelineUrl string `json:"pipelineUrl"`
+	Paused      bool   `json:"paused"`
+	Public      bool   `json:"public"`
 
 	ConcourseAPIUrl        string `json:"concourseApiUrl"`
 	ConcourseVersion       string `json:"concourseVersion"`

@@ -32,6 +32,7 @@ import (
 
 	"github.com/concourse/go-concourse/concourse"
 
+	"fmt"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -71,26 +72,28 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		return err
 	}
 
-	_, foundPipeline, err := team.Pipeline(k.Name)
+	pipelineInConcourse, foundPipeline, err := team.Pipeline(k.Name)
 	if err != nil {
 		log.Printf("Failed to get Concourse pipeline information for key '%s': %s", k, err.Error())
 		return err
 	}
 
+	pipelineUrl := fmt.Sprintf("%s/teams/%s/pipelines/%s", concourseClient.URL(), team.Name(), pipelineInConcourse.Name)
+
+	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
+		PipelineUrl: pipelineUrl,
+		Paused:      pipelineInConcourse.Paused,
+		Public:      pipelineInConcourse.Public,
+
+		ConcourseAPIUrl:        concourseClient.URL(),
+		ConcourseVersion:       info.Version,
+		ConcourseWorkerVersion: info.WorkerVersion,
+	}
+
 	if foundPipeline {
-		pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
-			ConcourseAPIUrl:        concourseClient.URL(),
-			ConcourseVersion:       info.Version,
-			ConcourseWorkerVersion: info.WorkerVersion,
-			PipelineSet:            true,
-		}
+		pipelineInK8s.Status.PipelineSet = true
 	} else {
-		pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
-			ConcourseAPIUrl:        concourseClient.URL(),
-			ConcourseVersion:       info.Version,
-			ConcourseWorkerVersion: info.WorkerVersion,
-			PipelineSet:            false,
-		}
+		pipelineInK8s.Status.PipelineSet = false
 	}
 
 	_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)

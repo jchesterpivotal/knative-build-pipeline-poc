@@ -131,12 +131,24 @@ var (
 								"concourseWorkerVersion": v1beta1.JSONSchemaProps{
 									Type: "string",
 								},
+								"paused": v1beta1.JSONSchemaProps{
+									Type: "boolean",
+								},
 								"pipelineSet": v1beta1.JSONSchemaProps{
+									Type: "boolean",
+								},
+								"pipelineUrl": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"public": v1beta1.JSONSchemaProps{
 									Type: "boolean",
 								},
 							},
 							Required: []string{
 								"pipelineSet",
+								"pipelineUrl",
+								"paused",
+								"public",
 								"concourseApiUrl",
 								"concourseVersion",
 								"concourseWorkerVersion",
