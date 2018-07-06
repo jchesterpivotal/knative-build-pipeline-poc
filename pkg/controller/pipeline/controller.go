@@ -66,15 +66,31 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 	}
 
 	info, err := concourseClient.GetInfo()
-	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
-		ConcourseAPIUrl:        concourseClient.URL(),
-		ConcourseVersion:       info.Version,
-		ConcourseWorkerVersion: info.WorkerVersion,
-		PipelineSet:            false,
-	}
 	if err != nil {
-		log.Printf("Failed to get Concourse /info for key '%s': %s", k, err.Error())
+		log.Printf("Failed to get Concourse server information for key '%s': %s", k, err.Error())
 		return err
+	}
+
+	_, foundPipeline, err := team.Pipeline(k.Name)
+	if err != nil {
+		log.Printf("Failed to get Concourse pipeline information for key '%s': %s", k, err.Error())
+		return err
+	}
+
+	if foundPipeline {
+		pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
+			ConcourseAPIUrl:        concourseClient.URL(),
+			ConcourseVersion:       info.Version,
+			ConcourseWorkerVersion: info.WorkerVersion,
+			PipelineSet:            true,
+		}
+	} else {
+		pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
+			ConcourseAPIUrl:        concourseClient.URL(),
+			ConcourseVersion:       info.Version,
+			ConcourseWorkerVersion: info.WorkerVersion,
+			PipelineSet:            false,
+		}
 	}
 
 	_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)
