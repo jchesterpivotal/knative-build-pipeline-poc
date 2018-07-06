@@ -182,8 +182,6 @@ revision="f53464b8b84b4507805a0b033a8377b225163fea"
 name = "github.com/kubernetes-sigs/kubebuilder"
 version="0.1.12"
 
-
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/concourse/go-concourse"
+[[override]]
+name = "github.com/concourse/go-concourse"
+revision = "0efc7ba68468713fcf28a943248883ba43d5042e"

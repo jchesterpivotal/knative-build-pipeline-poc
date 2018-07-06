@@ -1,0 +1,2 @@
+concourse:
+   externalURL: http://concourse-web.concourse.svc.cluster.local:8080

@@ -42,22 +42,22 @@ var concourseClient concourse.Client
 // Controller implementation logic for Pipeline resources goes here.
 
 func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
-	concourseClient, err := ConcourseClient(
-		"http://concourse-web.concourse.svc.cluster.local:8080",
-		"concourse",
-		"concourse",
-	)
+	concourseClient, err := ConcourseClient("http://concourse-web.concourse.svc.cluster.local:8080")
 	if err != nil {
 		log.Printf("Failed to set up a Concourse client for key '%s': %s", k, err.Error())
 		return err
 	}
 
 	team := concourseClient.Team("main")
-	_, _, _, err = team.CreateOrUpdatePipelineConfig(
+	_, _, warnings, err := team.CreateOrUpdatePipelineConfig(
 		k.Name,
 		"1",
 		[]byte{},
 	)
+
+	if len(warnings) > 0 {
+		log.Printf("After setting the %s pipeline in Concourse, there were warnings: %+v", k.Name, warnings)
+	}
 
 	pipelineInK8s, err := bc.pipelineclient.Pipelines(k.Namespace).Get(k.Name, v1.GetOptions{IncludeUninitialized: false})
 	if err != nil {

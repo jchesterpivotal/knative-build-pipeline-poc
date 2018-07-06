@@ -8,6 +8,12 @@
   version = "v0.21.0"
 
 [[projects]]
+  name = "code.cloudfoundry.org/lager"
+  packages = ["."]
+  revision = "b60e04e119450552243196105bae0d42179ee0ca"
+  version = "v1.1.0"
+
+[[projects]]
   name = "github.com/PuerkitoBio/purell"
   packages = ["."]
   revision = "0bcb03f4b4d0a9428594752bd2a3b9aa0a9d4bd4"
@@ -34,14 +40,19 @@
   version = "v3.14.1"
 
 [[projects]]
-  branch = "master"
   name = "github.com/concourse/go-concourse"
   packages = [
     "concourse",
     "concourse/eventstream",
     "concourse/internal"
   ]
-  revision = "f4422415225c685f46bfc37a69bbe961ffe1d3c5"
+  revision = "0efc7ba68468713fcf28a943248883ba43d5042e"
+
+[[projects]]
+  branch = "feature/providers"
+  name = "github.com/concourse/skymarshal"
+  packages = ["provider"]
+  revision = "5aac587160ef6ca109bec12547e0cca95a671a73"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -645,6 +656,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "deddc756a5a2fc5356be5999148cf6b443cd16b00f41fb09f750e2245d63d248"
+  inputs-digest = "a13bba1b0368f9231bcd1fe95c0fa327d96cabe6cfaa917d584ea05e4e8e513e"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -14,6 +14,7 @@ import (
 type Client interface {
 	URL() string
 	HTTPClient() *http.Client
+
 	Builds(Page) ([]atc.Build, Pagination, error)
 	Build(buildID string) (atc.Build, bool, error)
 	BuildEvents(buildID string) (Events, error)
@@ -29,6 +30,7 @@ type Client interface {
 	GetCLIReader(arch, platform string) (io.ReadCloser, http.Header, error)
 	ListPipelines() ([]atc.Pipeline, error)
 	ListTeams() ([]atc.Team, error)
+
 	Team(teamName string) Team
 }
 

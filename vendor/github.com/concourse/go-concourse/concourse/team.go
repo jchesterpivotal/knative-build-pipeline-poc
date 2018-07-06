@@ -3,12 +3,16 @@ package concourse
 import (
 	"github.com/concourse/atc"
 	"github.com/concourse/go-concourse/concourse/internal"
+	"github.com/concourse/skymarshal/provider"
 )
 
 //go:generate counterfeiter . Team
 
 type Team interface {
 	Name() string
+
+	ListAuthMethods() ([]provider.AuthMethod, error)
+	AuthToken() (provider.AuthToken, error)
 
 	CreateOrUpdate(team atc.Team) (atc.Team, bool, bool, error)
 	RenameTeam(teamName, name string) (bool, error)
@@ -45,8 +49,6 @@ type Team interface {
 	VersionedResourceTypes(pipelineName string) (atc.VersionedResourceTypes, bool, error)
 	ResourceVersions(pipelineName string, resourceName string, page Page) ([]atc.VersionedResource, Pagination, bool, error)
 	CheckResource(pipelineName string, resourceName string, version atc.Version) (bool, error)
-	DisableResourceVersion(pipelineName string, resourceName string, resourceVersionID int) (bool, error)
-	EnableResourceVersion(pipelineName string, resourceName string, resourceVersionID int) (bool, error)
 
 	BuildsWithVersionAsInput(pipelineName string, resourceName string, resourceVersionID int) ([]atc.Build, bool, error)
 	BuildsWithVersionAsOutput(pipelineName string, resourceName string, resourceVersionID int) ([]atc.Build, bool, error)
