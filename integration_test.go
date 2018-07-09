@@ -17,13 +17,13 @@ limitations under the License.
 package integration_test
 
 import (
+	"fmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"os/exec"
-	"github.com/onsi/gomega/gexec"
 	"github.com/onsi/gomega/gbytes"
+	"github.com/onsi/gomega/gexec"
+	"os/exec"
 	"time"
-	"fmt"
 )
 
 var _ = Describe("Integration", func() {
@@ -34,7 +34,7 @@ var _ = Describe("Integration", func() {
 
 		// This is gross, but we need to give time for kubernetes to update its view of the world
 		// before proceeding to the rest of the test suite.
-		time.Sleep(time.Millisecond*500)
+		time.Sleep(time.Millisecond * 500)
 
 		// It is useful to know whether we deleted something or not.
 		fmt.Printf("BeforeSuite 'kubectl delete' response: %s %s\n\n", session.Out.Contents(), session.Err.Contents())
@@ -51,12 +51,40 @@ var _ = Describe("Integration", func() {
 
 	Describe("The information given by 'kubectl get'", func() {
 		It("Contains a URL for the pipeline", func() {
-			kubectlCmd := exec.Command("kubectl", "get", "pipelines")
+			kubectlCmd := exec.Command("kubectl", "describe", "pipeline", "pipeline.example.com")
 			session, err := gexec.Start(kubectlCmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).ShouldNot(HaveOccurred())
 
-			Eventually(session.Out).Should(gbytes.Say(`NAME                   CREATED AT   URL
-pipeline.example.com   [\d+]s       http://concourse-web.concourse.svc.cluster.local/teams/main/pipelines/example`))
+			Eventually(session.Out).Should(gbytes.Say(`Spec:
+  Jobs:
+    Name:  successful-job
+    Plan:
+      Get:   git-repo
+      File:  git-repo/tasks/successful/task.yml
+      Task:  job-task
+    Name:    failed-job
+    Plan:
+      Get:   git-repo
+      File:  git-repo/tasks/failed/task.yml
+      Task:  job-task
+    Name:    flaky-job
+    Plan:
+      Get:   git-repo
+      File:  git-repo/tasks/flaky/task.yml
+      Task:  job-task
+  Resources:
+    Name:  git-repo
+    Source:
+      Uri:  https://github.com/concourse-courses/002-basics-of-reading-a-concourse-pipeline.git
+    Type:   git
+Status:
+  Concourse API URL:         http://concourse-web.concourse.svc.cluster.local:8080
+  Concourse Version:         3.14.1
+  Concourse Worker Version:  2.1
+  Paused:                    true
+  Pipeline Set:              true
+  Pipeline URL:              http://concourse-web.concourse.svc.cluster.local:8080/teams/main/pipelines/pipeline.example.com
+  Public:                    false`))
 		})
 	})
 })
