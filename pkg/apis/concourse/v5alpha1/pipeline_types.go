@@ -61,6 +61,6 @@ type Pipeline struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   PipelineSpec   `json:"spec,omitempty"`
-	Status PipelineStatus `json:"status,omitempty"`
+	Spec   PipelineSpec   `json:"spec"`
+	Status PipelineStatus `json:"status"`
 }

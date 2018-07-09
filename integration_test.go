@@ -49,42 +49,47 @@ var _ = Describe("Integration", func() {
 		Eventually(session.Out).Should(gbytes.Say("pipeline.concourse.concourse-ci.org/pipeline.example.com created"))
 	})
 
-	Describe("The information given by 'kubectl get'", func() {
-		It("Contains a URL for the pipeline", func() {
-			kubectlCmd := exec.Command("kubectl", "describe", "pipeline", "pipeline.example.com")
-			session, err := gexec.Start(kubectlCmd, GinkgoWriter, GinkgoWriter)
-			Expect(err).ShouldNot(HaveOccurred())
+	Describe("The information given by 'kubectl describe'", func() {
+		var session *gexec.Session
+		var err error
 
-			Eventually(session.Out).Should(gbytes.Say(`Spec:
-  Jobs:
-    Name:  successful-job
-    Plan:
-      Get:   git-repo
-      File:  git-repo/tasks/successful/task.yml
-      Task:  job-task
-    Name:    failed-job
-    Plan:
-      Get:   git-repo
-      File:  git-repo/tasks/failed/task.yml
-      Task:  job-task
-    Name:    flaky-job
-    Plan:
-      Get:   git-repo
-      File:  git-repo/tasks/flaky/task.yml
-      Task:  job-task
-  Resources:
-    Name:  git-repo
-    Source:
-      Uri:  https://github.com/concourse-courses/002-basics-of-reading-a-concourse-pipeline.git
-    Type:   git
-Status:
-  Concourse API URL:         http://concourse-web.concourse.svc.cluster.local:8080
-  Concourse Version:         3.14.1
-  Concourse Worker Version:  2.1
-  Paused:                    true
-  Pipeline Set:              true
-  Pipeline URL:              http://concourse-web.concourse.svc.cluster.local:8080/teams/main/pipelines/pipeline.example.com
-  Public:                    false`))
+		BeforeEach(func() {
+			kubectlCmd := exec.Command("kubectl", "describe", "pipeline", "pipeline.example.com")
+			session, err = gexec.Start(kubectlCmd, GinkgoWriter, GinkgoWriter)
+			Expect(err).NotTo(HaveOccurred())
+
+		})
+
+		Describe("In the Spec", func() {
+			It("Contains the Pipeline's Jobs", func() {
+				Eventually(session.Out).Should(gbytes.Say("Jobs:\n    Name:  successful-job"))
+			})
+			It("Contains the Pipeline's Resources", func() {
+				Eventually(session.Out).Should(gbytes.Say("Resources:\n    Name:  git-repo"))
+			})
+		})
+		Describe("In the Status", func() {
+			It("Contains an Pipeline URL", func() {
+				Eventually(session.Out).Should(gbytes.Say("Pipeline URL:              http://concourse-web.concourse.svc.cluster.local:8080/teams/main/pipelines/pipeline.example.com"))
+			})
+			It("Contains a 'Pipeline Set' value", func() {
+				Eventually(session.Out).Should(gbytes.Say("Pipeline Set:              true"))
+			})
+			It("Shows if the Pipeline is paused", func() {
+				Eventually(session.Out).Should(gbytes.Say("Paused:                    true"))
+			})
+			It("Shows if the Pipeline is public", func() {
+				Eventually(session.Out).Should(gbytes.Say("Public:                    false"))
+			})
+			It("Contains an API URL", func() {
+				Eventually(session.Out).Should(gbytes.Say("Concourse API URL:         http://concourse-web.concourse.svc.cluster.local:8080"))
+			})
+			It("Contains a Concourse server/API version", func() {
+				Eventually(session.Out).Should(gbytes.Say("Concourse Version:         3.14.1"))
+			})
+			It("Contains a Concourse worker version", func() {
+				Eventually(session.Out).Should(gbytes.Say("Concourse Worker Version:  2.1"))
+			})
 		})
 	})
 })
