@@ -34,6 +34,7 @@ import (
 
 	"encoding/json"
 	"fmt"
+	"github.com/ghodss/yaml"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -58,11 +59,18 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 
 	team := concourseClient.Team("main")
 
+	_, _, currentVersionNumber, _, err := team.PipelineConfig(k.Name)
+	if err != nil {
+		log.Printf("There was an error retrieving the existing config for '%s': %+v", k.Name, err)
+		return err
+	}
+
 	pipelineSpec, err := json.Marshal(pipelineInK8s.Spec)
+	pipelineSpecYaml, err := yaml.JSONToYAML(pipelineSpec)
 	_, _, warnings, err := team.CreateOrUpdatePipelineConfig(
 		k.Name,
-		"1",
-		pipelineSpec,
+		currentVersionNumber,
+		pipelineSpecYaml,
 	)
 
 	if len(warnings) > 0 {
@@ -81,7 +89,7 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		return err
 	}
 
-	pipelineUrl := fmt.Sprintf("%s/teams/%s/pipelines/%s", concourseClient.URL(), team.Name(), pipelineInConcourse.Name)
+	pipelineUrl := fmt.Sprintf("%s/teams/%s/pipelines/%s", concourseClient.URL(), team.Name(), k.Name)
 
 	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
 		PipelineUrl: pipelineUrl,

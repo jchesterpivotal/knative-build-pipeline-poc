@@ -99,20 +99,12 @@ var (
 							Type: "object",
 							Properties: map[string]v1beta1.JSONSchemaProps{
 								"jobs": v1beta1.JSONSchemaProps{
-									Type: "array",
-									Items: &v1beta1.JSONSchemaPropsOrArray{
-										Schema: &v1beta1.JSONSchemaProps{
-											Type: "string",
-										},
-									},
+									Type:       "object",
+									Properties: map[string]v1beta1.JSONSchemaProps{},
 								},
 								"resources": v1beta1.JSONSchemaProps{
-									Type: "array",
-									Items: &v1beta1.JSONSchemaPropsOrArray{
-										Schema: &v1beta1.JSONSchemaProps{
-											Type: "string",
-										},
-									},
+									Type:       "object",
+									Properties: map[string]v1beta1.JSONSchemaProps{},
 								},
 							},
 							Required: []string{
