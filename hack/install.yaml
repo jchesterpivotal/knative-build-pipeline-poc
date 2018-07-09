@@ -67,37 +67,6 @@ spec:
     kind: Pipeline
     plural: pipelines
   scope: Namespaced
-  validation:
-    openAPIV3Schema:
-      properties:
-        apiVersion:
-          type: string
-        kind:
-          type: string
-        metadata:
-          type: object
-        spec:
-          properties:
-            jobs:
-              items:
-                type: string
-              type: array
-            resources:
-              items:
-                type: string
-              type: array
-          required:
-          - resources
-          - jobs
-          type: object
-        status:
-          properties:
-            pipelineSet:
-              type: boolean
-          required:
-          - pipelineSet
-          type: object
-      type: object
   version: v5alpha1
 status:
   acceptedNames:

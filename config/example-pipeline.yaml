@@ -4,5 +4,26 @@ kind: Pipeline
 metadata:
   name: pipeline.example.com
 spec:
-  resources: [""]
-  jobs: [""]
+  resources:
+  - name: git-repo
+    type: git
+    source:
+      uri: https://github.com/concourse-courses/002-basics-of-reading-a-concourse-pipeline.git
+  jobs:
+  - name: successful-job
+    plan:
+    - get: git-repo
+    - task: job-task
+      file: git-repo/tasks/successful/task.yml
+
+  - name: failed-job
+    plan:
+    - get: git-repo
+    - task: job-task
+      file: git-repo/tasks/failed/task.yml
+
+  - name: flaky-job
+    plan:
+    - get: git-repo
+    - task: job-task
+      file: git-repo/tasks/flaky/task.yml

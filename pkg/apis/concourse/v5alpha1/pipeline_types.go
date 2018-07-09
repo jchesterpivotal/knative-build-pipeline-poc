@@ -18,6 +18,7 @@ package v5alpha1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 // EDIT THIS FILE!
@@ -30,8 +31,8 @@ type PipelineSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "kubebuilder generate" to regenerate code after modifying this file
 
-	Resources []string `json:"resources"`
-	Jobs      []string `json:"jobs"`
+	Resources runtime.RawExtension `json:"resources"`
+	Jobs      runtime.RawExtension `json:"jobs"`
 }
 
 // PipelineStatus defines the observed state of Pipeline

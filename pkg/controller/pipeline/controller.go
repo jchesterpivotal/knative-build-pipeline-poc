@@ -32,6 +32,7 @@ import (
 
 	"github.com/concourse/go-concourse/concourse"
 
+	"encoding/json"
 	"fmt"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -43,6 +44,12 @@ var concourseClient concourse.Client
 // Controller implementation logic for Pipeline resources goes here.
 
 func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
+	pipelineInK8s, err := bc.pipelineclient.Pipelines(k.Namespace).Get(k.Name, v1.GetOptions{IncludeUninitialized: false})
+	if err != nil {
+		log.Printf("Failed to get pipeline resource for key '%s': %s", k, err.Error())
+		return err
+	}
+
 	concourseClient, err := ConcourseClient("http://concourse-web.concourse.svc.cluster.local:8080")
 	if err != nil {
 		log.Printf("Failed to set up a Concourse client for key '%s': %s", k, err.Error())
@@ -50,20 +57,16 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 	}
 
 	team := concourseClient.Team("main")
+
+	pipelineSpec, err := json.Marshal(pipelineInK8s.Spec)
 	_, _, warnings, err := team.CreateOrUpdatePipelineConfig(
 		k.Name,
 		"1",
-		[]byte{},
+		pipelineSpec,
 	)
 
 	if len(warnings) > 0 {
 		log.Printf("After setting the %s pipeline in Concourse, there were warnings: %+v", k.Name, warnings)
-	}
-
-	pipelineInK8s, err := bc.pipelineclient.Pipelines(k.Namespace).Get(k.Name, v1.GetOptions{IncludeUninitialized: false})
-	if err != nil {
-		log.Printf("Failed to get pipeline resource for key '%s': %s", k, err.Error())
-		return err
 	}
 
 	info, err := concourseClient.GetInfo()
