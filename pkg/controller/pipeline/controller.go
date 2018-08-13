@@ -51,7 +51,7 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		return err
 	}
 
-	concourseClient, err := ConcourseClient("http://concourse-web.concourse.svc.cluster.local:8080")
+	concourseClient, err := ConcourseClient(pipelineInK8s.Spec.ConcourseUrl)
 	if err != nil {
 		log.Printf("Failed to set up a Concourse client for key '%s': %s", k, err.Error())
 		return err

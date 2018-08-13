@@ -82,6 +82,79 @@ var (
 				Plural: "pipelines",
 			},
 			Scope: "Namespaced",
+			Validation: &v1beta1.CustomResourceValidation{
+				OpenAPIV3Schema: &v1beta1.JSONSchemaProps{
+					Type: "object",
+					Properties: map[string]v1beta1.JSONSchemaProps{
+						"apiVersion": v1beta1.JSONSchemaProps{
+							Type: "string",
+						},
+						"kind": v1beta1.JSONSchemaProps{
+							Type: "string",
+						},
+						"metadata": v1beta1.JSONSchemaProps{
+							Type: "object",
+						},
+						"spec": v1beta1.JSONSchemaProps{
+							Type: "object",
+							Properties: map[string]v1beta1.JSONSchemaProps{
+								"concourseUrl": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"jobs": v1beta1.JSONSchemaProps{
+									Type:       "object",
+									Properties: map[string]v1beta1.JSONSchemaProps{},
+								},
+								"resources": v1beta1.JSONSchemaProps{
+									Type:       "object",
+									Properties: map[string]v1beta1.JSONSchemaProps{},
+								},
+							},
+							Required: []string{
+								"resources",
+								"jobs",
+								"concourseUrl",
+							}},
+						"status": v1beta1.JSONSchemaProps{
+							Type: "object",
+							Properties: map[string]v1beta1.JSONSchemaProps{
+								"concourseApiUrl": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"concourseVersion": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"concourseWorkerVersion": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"paused": v1beta1.JSONSchemaProps{
+									Type: "boolean",
+								},
+								"pipelineSet": v1beta1.JSONSchemaProps{
+									Type: "boolean",
+								},
+								"pipelineUrl": v1beta1.JSONSchemaProps{
+									Type: "string",
+								},
+								"public": v1beta1.JSONSchemaProps{
+									Type: "boolean",
+								},
+							},
+							Required: []string{
+								"pipelineSet",
+								"pipelineUrl",
+								"paused",
+								"public",
+								"concourseApiUrl",
+								"concourseVersion",
+								"concourseWorkerVersion",
+							}},
+					},
+					Required: []string{
+						"spec",
+						"status",
+					}},
+			},
 			Subresources: &v1beta1.CustomResourceSubresources{
 				Status: &v1beta1.CustomResourceSubresourceStatus{},
 			},
