@@ -46,7 +46,6 @@ type PipelineStatus struct {
 	Paused      bool   `json:"paused"`
 	Public      bool   `json:"public"`
 
-	ConcourseAPIUrl        string `json:"concourseApiUrl"`
 	ConcourseVersion       string `json:"concourseVersion"`
 	ConcourseWorkerVersion string `json:"concourseWorkerVersion"`
 }

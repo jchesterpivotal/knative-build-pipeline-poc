@@ -112,7 +112,6 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		Paused:      pipelineInConcourse.Paused,
 		Public:      pipelineInConcourse.Public,
 
-		ConcourseAPIUrl:        concourseClient.URL(),
 		ConcourseVersion:       info.Version,
 		ConcourseWorkerVersion: info.WorkerVersion,
 	}

@@ -118,9 +118,6 @@ var (
 						"status": v1beta1.JSONSchemaProps{
 							Type: "object",
 							Properties: map[string]v1beta1.JSONSchemaProps{
-								"concourseApiUrl": v1beta1.JSONSchemaProps{
-									Type: "string",
-								},
 								"concourseVersion": v1beta1.JSONSchemaProps{
 									Type: "string",
 								},
@@ -145,7 +142,6 @@ var (
 								"pipelineUrl",
 								"paused",
 								"public",
-								"concourseApiUrl",
 								"concourseVersion",
 								"concourseWorkerVersion",
 							}},
