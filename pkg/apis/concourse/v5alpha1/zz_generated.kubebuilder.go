@@ -118,6 +118,39 @@ var (
 						"status": v1beta1.JSONSchemaProps{
 							Type: "object",
 							Properties: map[string]v1beta1.JSONSchemaProps{
+								"builds": v1beta1.JSONSchemaProps{
+									Type: "array",
+									Items: &v1beta1.JSONSchemaPropsOrArray{
+										Schema: &v1beta1.JSONSchemaProps{
+											Type: "object",
+											Properties: map[string]v1beta1.JSONSchemaProps{
+												"endTime": v1beta1.JSONSchemaProps{
+													Type:   "integer",
+													Format: "int64",
+												},
+												"jobName": v1beta1.JSONSchemaProps{
+													Type: "string",
+												},
+												"startTime": v1beta1.JSONSchemaProps{
+													Type:   "integer",
+													Format: "int64",
+												},
+												"status": v1beta1.JSONSchemaProps{
+													Type: "string",
+												},
+												"url": v1beta1.JSONSchemaProps{
+													Type: "string",
+												},
+											},
+											Required: []string{
+												"url",
+												"jobName",
+												"status",
+												"startTime",
+												"endTime",
+											}},
+									},
+								},
 								"concourseVersion": v1beta1.JSONSchemaProps{
 									Type: "string",
 								},
@@ -144,6 +177,7 @@ var (
 								"public",
 								"concourseVersion",
 								"concourseWorkerVersion",
+								"builds",
 							}},
 					},
 					Required: []string{

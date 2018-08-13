@@ -75,57 +75,107 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 
 	team := concourseClient.Team("main")
 
-	_, _, currentVersionNumber, _, err := team.PipelineConfig(k.Name)
+	_, _, currentVersionNumber, found, err := team.PipelineConfig(k.Name)
 	if err != nil {
-		log.Printf("There was an error retrieving the existing config for '%s': %+v", k.Name, err)
+		log.Printf("There was an error retrieving the existing config for '%s': %+v", k.Name, err.Error())
 		return err
 	}
 
-	pipelineSpec, err := json.Marshal(pipelineInK8s.Spec)
-	pipelineSpecYaml, err := yaml.JSONToYAML(pipelineSpec)
-	_, _, warnings, err := team.CreateOrUpdatePipelineConfig(
-		k.Name,
-		currentVersionNumber,
-		pipelineSpecYaml,
-	)
+	// pipeline already exists in Concourse
+	if found {
+		jobs, err := team.ListJobs(k.Name)
+		if err != nil {
+			log.Printf("failed to get jobs for '%s': %s", k.Name, err)
+			return err
+		}
 
-	if len(warnings) > 0 {
-		log.Printf("After setting the %s pipeline in Concourse, there were warnings: %+v", k.Name, warnings)
+		builds := make([]concoursev5alpha1.BuildStatus, 0)
+		for _, j := range jobs {
+			// TODO: do something smarter with pagination
+			jobsInBuild, _, found, err := team.JobBuilds(k.Name, j.Name, concourse.Page{})
+			if err != nil {
+				log.Printf("failed to get builds for '%s/%s': %s", k.Name, j.Name, err.Error())
+				return err
+			}
+
+			if !found {
+				break
+			}
+
+			for _, b := range jobsInBuild {
+				buildUrl := fmt.Sprintf("%s/teams/%s/pipelines/%s/jobs/%s/builds/%s", concourseClient.URL(), team.Name(), k.Name, j.Name, b.Name)
+
+				statBuild := concoursev5alpha1.BuildStatus{
+					Url:       buildUrl,
+					JobName:   b.JobName,
+					Status:    b.Status,
+					StartTime: b.StartTime,
+					EndTime:   b.EndTime,
+				}
+				builds = append(builds, statBuild)
+			}
+		}
+
+		pipelineInK8s.Status.Builds = builds
+
+		_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)
+		if err != nil {
+			log.Printf("Failed to update pipeline status for key '%s': %s", k, err.Error())
+			return err
+		}
+
+		return nil
 	}
 
-	info, err := concourseClient.GetInfo()
-	if err != nil {
-		log.Printf("Failed to get Concourse server information for key '%s': %s", k, err.Error())
-		return err
-	}
+	if !found {
+		pipelineSpec, err := json.Marshal(pipelineInK8s.Spec)
+		pipelineSpecYaml, err := yaml.JSONToYAML(pipelineSpec)
+		_, _, warnings, err := team.CreateOrUpdatePipelineConfig(
+			k.Name,
+			currentVersionNumber,
+			pipelineSpecYaml,
+		)
 
-	pipelineInConcourse, foundPipeline, err := team.Pipeline(k.Name)
-	if err != nil {
-		log.Printf("Failed to get Concourse pipeline information for key '%s': %s", k, err.Error())
-		return err
-	}
+		if len(warnings) > 0 {
+			log.Printf("After setting the %s pipeline in Concourse, there were warnings: %+v", k.Name, warnings)
+		}
 
-	pipelineUrl := fmt.Sprintf("%s/teams/%s/pipelines/%s", concourseClient.URL(), team.Name(), k.Name)
+		info, err := concourseClient.GetInfo()
+		if err != nil {
+			log.Printf("Failed to get Concourse server information for key '%s': %s", k, err.Error())
+			return err
+		}
 
-	pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
-		PipelineUrl: pipelineUrl,
-		Paused:      pipelineInConcourse.Paused,
-		Public:      pipelineInConcourse.Public,
+		pipelineInConcourse, foundPipeline, err := team.Pipeline(k.Name)
+		if err != nil {
+			log.Printf("Failed to get Concourse pipeline information for key '%s': %s", k, err.Error())
+			return err
+		}
 
-		ConcourseVersion:       info.Version,
-		ConcourseWorkerVersion: info.WorkerVersion,
-	}
+		pipelineUrl := fmt.Sprintf("%s/teams/%s/pipelines/%s", concourseClient.URL(), team.Name(), k.Name)
 
-	if foundPipeline {
-		pipelineInK8s.Status.PipelineSet = true
-	} else {
-		pipelineInK8s.Status.PipelineSet = false
-	}
+		pipelineInK8s.Status = concoursev5alpha1.PipelineStatus{
+			PipelineUrl: pipelineUrl,
+			Paused:      pipelineInConcourse.Paused,
+			Public:      pipelineInConcourse.Public,
 
-	_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)
-	if err != nil {
-		log.Printf("Failed to update pipeline status for key '%s': %s", k, err.Error())
-		return err
+			ConcourseVersion:            info.Version,
+			ConcourseWorkerVersion:      info.WorkerVersion,
+		}
+
+		if foundPipeline {
+			pipelineInK8s.Status.PipelineSet = true
+		} else {
+			pipelineInK8s.Status.PipelineSet = false
+		}
+
+		_, err = bc.pipelineclient.Pipelines(k.Namespace).Update(pipelineInK8s)
+		if err != nil {
+			log.Printf("Failed to update pipeline status for key '%s': %s", k, err.Error())
+			return err
+		}
+
+		return nil
 	}
 
 	return nil
