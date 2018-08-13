@@ -14,69 +14,45 @@ specific language governing permissions and limitations under the License.
 */
 
 // As this is not original code, I have included the Concourse license header.
-// Frankenstein'd from originals:
-//		https://github.com/concourse/testflight/blob/065d3854302c3d3c60f119362e7311cdc3949104/helpers/concourse_client.go
-//		https://github.com/concourse/fly/blob/b470a7d130522711157fdcaad2629ed0fc9fe484/commands/login.go
-// Using earlier versions which are compatible with Concourse 3.x.
-// The code on master at time of writing was aimed at the upcoming 4.x authentication flow.
+// From: https://github.com/concourse/testflight/blob/b883e2e40a4172452a5b26123c10e6dd34660b9f/helpers/concourse_client.go
 package pipeline
 
 import (
-	"crypto/tls"
-	"encoding/json"
 	"github.com/concourse/go-concourse/concourse"
-	"golang.org/x/oauth2"
-	"log"
 	"net/http"
+	"golang.org/x/oauth2"
+	"crypto/tls"
+	"context"
+	"log"
 )
 
-func ConcourseClient(atcURL string) (concourse.Client, error) {
-	tokenType, tokenVal, err := legacyAuth(atcURL)
+func ConcourseClient(atcURL string, username, password string) (concourse.Client, error) {
+	token, err := fetchToken(atcURL, username, password)
 	if err != nil {
 		log.Printf("legacyAuth failed: %s\n", err)
 		return nil, err
 	}
 
-	httpClient := oauthClient(tokenType, tokenVal)
-
-	return concourse.NewClient(atcURL, httpClient, true), nil
-}
-
-func legacyAuth(atcUrl string) (string, string, error) {
-	request, err := http.NewRequest("GET", atcUrl+"/api/v1/teams/main/auth/token", nil)
-	if err != nil {
-		return "", "", err
-	}
-	request.SetBasicAuth("concourse", "concourse") // from the Helm chart defaults
-
-	tokenResponse, err := http.DefaultClient.Do(request)
-	if err != nil {
-		return "", "", err
-	}
-
-	type authToken struct {
-		Type  string `json:"type"`
-		Value string `json:"value"`
-	}
-
-	defer tokenResponse.Body.Close()
-
-	var token authToken
-	json.NewDecoder(tokenResponse.Body).Decode(&token)
-
-	return token.Type, token.Value, nil
-}
-
-func oauthClient(tokenType, tokenVal string) *http.Client {
-	return &http.Client{
+	httpClient := &http.Client{
 		Transport: &oauth2.Transport{
-			Source: oauth2.StaticTokenSource(&oauth2.Token{
-				TokenType:   tokenType,
-				AccessToken: tokenVal,
-			}),
+			Source: oauth2.StaticTokenSource(token),
 			Base: &http.Transport{
 				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 			},
 		},
 	}
+
+	return concourse.NewClient(atcURL, httpClient, false), nil
+}
+
+func fetchToken(atcURL string, username, password string) (*oauth2.Token, error) {
+
+	oauth2Config := oauth2.Config{
+		ClientID:     "fly",
+		ClientSecret: "Zmx5",
+		Endpoint:     oauth2.Endpoint{TokenURL: atcURL + "/sky/token"},
+		Scopes:       []string{"openid", "federated:id"},
+	}
+
+	return oauth2Config.PasswordCredentialsToken(context.Background(), username, password)
 }

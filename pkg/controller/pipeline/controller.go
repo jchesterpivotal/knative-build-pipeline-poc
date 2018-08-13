@@ -36,6 +36,8 @@ import (
 	"fmt"
 	"github.com/ghodss/yaml"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	"os"
+	"errors"
 )
 
 var concourseClient concourse.Client
@@ -51,7 +53,21 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 		return err
 	}
 
-	concourseClient, err := ConcourseClient(pipelineInK8s.Spec.ConcourseUrl)
+	username, found := os.LookupEnv("CONCOURSE_USERNAME")
+	if !found {
+		errMsg := fmt.Sprintf("CONCOURSE_USERNAME was not set")
+		log.Printf(errMsg)
+		return errors.New(errMsg)
+	}
+
+	password, found := os.LookupEnv("CONCOURSE_PASSWORD")
+	if !found {
+		errMsg := fmt.Sprintf("CONCOURSE_PASSWORD was not set")
+		log.Printf(errMsg)
+		return errors.New(errMsg)
+	}
+
+	concourseClient, err := ConcourseClient(pipelineInK8s.Spec.ConcourseUrl, username, password)
 	if err != nil {
 		log.Printf("Failed to set up a Concourse client for key '%s': %s", k, err.Error())
 		return err

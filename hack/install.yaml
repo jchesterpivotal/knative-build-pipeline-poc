@@ -131,6 +131,17 @@ spec:
           requests:
             cpu: 100m
             memory: 20Mi
+        env:
+          - name: CONCOURSE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: pipeline-controller-concourse-user
+                key: username
+          - name: CONCOURSE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pipeline-controller-concourse-user
+                key: password
       terminationGracePeriodSeconds: 10
   updateStrategy: {}
 status:
