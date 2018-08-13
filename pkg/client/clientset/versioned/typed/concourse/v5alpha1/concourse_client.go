@@ -19,8 +19,8 @@ limitations under the License.
 package v5alpha1
 
 import (
-	v5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/scheme"
+	v5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/scheme"
 	serializer "k8s.io/apimachinery/pkg/runtime/serializer"
 	rest "k8s.io/client-go/rest"
 )

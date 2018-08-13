@@ -19,9 +19,9 @@ limitations under the License.
 package fake
 
 import (
-	clientset "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned"
-	concoursev5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
-	fakeconcoursev5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1/fake"
+	clientset "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned"
+	concoursev5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
+	fakeconcoursev5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

@@ -18,10 +18,10 @@ package inject
 
 import (
 	"github.com/kubernetes-sigs/kubebuilder/pkg/inject/run"
-	concoursev5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
-	rscheme "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/scheme"
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/controller/pipeline"
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject/args"
+	concoursev5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+	rscheme "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/scheme"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/controller/pipeline"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/inject/args"
 	rbacv1 "k8s.io/api/rbac/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/kubernetes/scheme"

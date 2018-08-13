@@ -19,7 +19,7 @@ limitations under the License.
 package v5alpha1
 
 import (
-	internalinterfaces "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
+	internalinterfaces "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.

@@ -22,8 +22,8 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	. "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
-	. "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
+	. "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+	. "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
 )
 
 // EDIT THIS FILE!

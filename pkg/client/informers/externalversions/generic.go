@@ -21,7 +21,7 @@ package externalversions
 import (
 	"fmt"
 
-	v5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+	v5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"
 )

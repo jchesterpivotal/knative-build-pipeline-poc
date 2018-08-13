@@ -21,10 +21,10 @@ package v5alpha1
 import (
 	time "time"
 
-	concourse_v5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
-	versioned "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned"
-	internalinterfaces "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
-	v5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/listers/concourse/v5alpha1"
+	concourse_v5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+	versioned "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned"
+	internalinterfaces "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
+	v5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/listers/concourse/v5alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	watch "k8s.io/apimachinery/pkg/watch"

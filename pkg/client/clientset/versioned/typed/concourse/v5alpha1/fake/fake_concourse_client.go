@@ -19,7 +19,7 @@ limitations under the License.
 package fake
 
 import (
-	v5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
+	v5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )

@@ -22,8 +22,8 @@ import (
 	"github.com/kubernetes-sigs/kubebuilder/pkg/inject/args"
 	"k8s.io/client-go/rest"
 
-	clientset "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned"
-	informer "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions"
+	clientset "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned"
+	informer "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions"
 )
 
 // InjectArgs are the arguments need to initialize controllers

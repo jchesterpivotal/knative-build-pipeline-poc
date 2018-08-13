@@ -15,6 +15,6 @@ spec:
       containers:
       - name: pipeline-controller
         # This is the import path for the Go binary to build and run.
-        image: github.com/topherbullock/knative-build-pipeline-poc/cmd/controller-manager
+        image: github.com/jchesterpivotal/knative-build-pipeline-poc/cmd/controller-manager
         ports:
         - containerPort: 8080

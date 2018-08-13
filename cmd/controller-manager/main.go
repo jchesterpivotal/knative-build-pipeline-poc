@@ -29,8 +29,8 @@ import (
 	"github.com/kubernetes-sigs/kubebuilder/pkg/signals"
 	extensionsv1beta1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1"
 
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject"
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject/args"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/inject"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/inject/args"
 )
 
 var installCRDs = flag.Bool("install-crds", true, "install the CRDs used by the controller as part of startup")

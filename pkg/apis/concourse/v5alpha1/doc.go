@@ -20,7 +20,7 @@ limitations under the License.
 
 // +k8s:openapi-gen=true
 // +k8s:deepcopy-gen=package,register
-// +k8s:conversion-gen=github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse
+// +k8s:conversion-gen=github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse
 // +k8s:defaulter-gen=TypeMeta
 // +groupName=concourse.concourse-ci.org
-package v5alpha1 // import "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+package v5alpha1 // import "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"

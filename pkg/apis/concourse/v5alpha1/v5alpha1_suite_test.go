@@ -24,8 +24,8 @@ import (
 	. "github.com/onsi/gomega"
 	"k8s.io/client-go/rest"
 
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned"
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/inject"
 )
 
 var testenv *test.TestEnvironment

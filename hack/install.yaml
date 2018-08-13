@@ -122,7 +122,7 @@ spec:
       containers:
       - args:
         - --install-crds=false
-        image: github.com/topherbullock/knative-build-pipeline-poc/cmd/controller-manager
+        image: github.com/jchesterpivotal/knative-build-pipeline-poc/cmd/controller-manager
         name: controller-manager
         resources:
           limits:

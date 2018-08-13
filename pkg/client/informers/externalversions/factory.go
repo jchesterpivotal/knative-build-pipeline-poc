@@ -23,9 +23,9 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned"
-	concourse "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions/concourse"
-	internalinterfaces "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
+	versioned "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned"
+	concourse "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions/concourse"
+	internalinterfaces "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

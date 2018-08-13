@@ -19,8 +19,8 @@ limitations under the License.
 package v5alpha1
 
 import (
-	v5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
-	scheme "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/scheme"
+	v5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+	scheme "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/scheme"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	types "k8s.io/apimachinery/pkg/types"
 	watch "k8s.io/apimachinery/pkg/watch"

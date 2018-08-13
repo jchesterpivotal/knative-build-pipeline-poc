@@ -23,12 +23,12 @@ import (
 	"github.com/kubernetes-sigs/kubebuilder/pkg/controller/types"
 	"k8s.io/client-go/tools/record"
 
-	concoursev5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
-	concoursev5alpha1client "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
-	concoursev5alpha1informer "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions/concourse/v5alpha1"
-	concoursev5alpha1lister "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/listers/concourse/v5alpha1"
+	concoursev5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/apis/concourse/v5alpha1"
+	concoursev5alpha1client "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/clientset/versioned/typed/concourse/v5alpha1"
+	concoursev5alpha1informer "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions/concourse/v5alpha1"
+	concoursev5alpha1lister "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/listers/concourse/v5alpha1"
 
-	"github.com/topherbullock/knative-build-pipeline-poc/pkg/inject/args"
+	"github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/inject/args"
 
 	"github.com/concourse/go-concourse/concourse"
 

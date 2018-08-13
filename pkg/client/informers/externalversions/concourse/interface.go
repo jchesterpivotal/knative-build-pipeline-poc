@@ -19,8 +19,8 @@ limitations under the License.
 package concourse
 
 import (
-	v5alpha1 "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions/concourse/v5alpha1"
-	internalinterfaces "github.com/topherbullock/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
+	v5alpha1 "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions/concourse/v5alpha1"
+	internalinterfaces "github.com/jchesterpivotal/knative-build-pipeline-poc/pkg/client/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to each of this group's versions.
