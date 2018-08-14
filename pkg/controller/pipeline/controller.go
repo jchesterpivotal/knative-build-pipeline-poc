@@ -38,6 +38,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"os"
 	"errors"
+	"time"
 )
 
 var concourseClient concourse.Client
@@ -105,12 +106,23 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 			for _, b := range jobsInBuild {
 				buildUrl := fmt.Sprintf("%s/teams/%s/pipelines/%s/jobs/%s/builds/%s", concourseClient.URL(), team.Name(), k.Name, j.Name, b.Name)
 
+				var start, end v1.Time
+				var duration v1.Duration
+				start = v1.Unix(b.StartTime, 0)
+				if b.EndTime == 0 {
+					duration = v1.Duration{Duration: time.Since(start.Time)}
+				} else {
+					end = v1.Unix(b.EndTime, 0)
+					duration = v1.Duration{Duration: end.Time.Sub(start.Time)}
+				}
+
 				statBuild := concoursev5alpha1.BuildStatus{
 					Url:       buildUrl,
 					JobName:   b.JobName,
 					Status:    b.Status,
-					StartTime: b.StartTime,
-					EndTime:   b.EndTime,
+					StartTime: start,
+					EndTime:   end,
+					Duration:  duration,
 				}
 				builds = append(builds, statBuild)
 			}
@@ -159,8 +171,8 @@ func (bc *PipelineController) Reconcile(k types.ReconcileKey) error {
 			Paused:      pipelineInConcourse.Paused,
 			Public:      pipelineInConcourse.Public,
 
-			ConcourseVersion:            info.Version,
-			ConcourseWorkerVersion:      info.WorkerVersion,
+			ConcourseVersion:       info.Version,
+			ConcourseWorkerVersion: info.WorkerVersion,
 		}
 
 		if foundPipeline {

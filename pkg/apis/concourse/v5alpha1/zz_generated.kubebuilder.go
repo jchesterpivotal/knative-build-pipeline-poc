@@ -124,16 +124,20 @@ var (
 										Schema: &v1beta1.JSONSchemaProps{
 											Type: "object",
 											Properties: map[string]v1beta1.JSONSchemaProps{
+												"duration": v1beta1.JSONSchemaProps{
+													Type:       "object",
+													Properties: map[string]v1beta1.JSONSchemaProps{},
+												},
 												"endTime": v1beta1.JSONSchemaProps{
-													Type:   "integer",
-													Format: "int64",
+													Type:   "string",
+													Format: "date-time",
 												},
 												"jobName": v1beta1.JSONSchemaProps{
 													Type: "string",
 												},
 												"startTime": v1beta1.JSONSchemaProps{
-													Type:   "integer",
-													Format: "int64",
+													Type:   "string",
+													Format: "date-time",
 												},
 												"status": v1beta1.JSONSchemaProps{
 													Type: "string",
@@ -148,6 +152,7 @@ var (
 												"status",
 												"startTime",
 												"endTime",
+												"duration",
 											}},
 									},
 								},

@@ -54,11 +54,12 @@ type PipelineStatus struct {
 
 // BuildStatus defines the observed Builds reflecting the history of the Pipeline
 type BuildStatus struct {
-	Url       string `json:"url"`
-	JobName   string `json:"jobName"`
-	Status    string `json:"status"`
-	StartTime int64  `json:"startTime"`
-	EndTime   int64  `json:"endTime"`
+	Url       string          `json:"url"`
+	JobName   string          `json:"jobName"`
+	Status    string          `json:"status"`
+	StartTime metav1.Time     `json:"startTime"`
+	EndTime   metav1.Time     `json:"endTime"`
+	Duration  metav1.Duration `json:"duration"`
 }
 
 // +genclient
