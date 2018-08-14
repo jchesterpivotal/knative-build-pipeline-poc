@@ -99,12 +99,48 @@ var (
 							Type: "object",
 							Properties: map[string]v1beta1.JSONSchemaProps{
 								"jobs": v1beta1.JSONSchemaProps{
-									Type:       "object",
-									Properties: map[string]v1beta1.JSONSchemaProps{},
+									Type: "array",
+									Items: &v1beta1.JSONSchemaPropsOrArray{
+										Schema: &v1beta1.JSONSchemaProps{
+											Type: "object",
+											Properties: map[string]v1beta1.JSONSchemaProps{
+												"name": v1beta1.JSONSchemaProps{
+													Type: "string",
+												},
+												"plan": v1beta1.JSONSchemaProps{
+													Type:       "object",
+													Properties: map[string]v1beta1.JSONSchemaProps{},
+												},
+											},
+											Required: []string{
+												"name",
+												"plan",
+											}},
+									},
 								},
 								"resources": v1beta1.JSONSchemaProps{
-									Type:       "object",
-									Properties: map[string]v1beta1.JSONSchemaProps{},
+									Type: "array",
+									Items: &v1beta1.JSONSchemaPropsOrArray{
+										Schema: &v1beta1.JSONSchemaProps{
+											Type: "object",
+											Properties: map[string]v1beta1.JSONSchemaProps{
+												"name": v1beta1.JSONSchemaProps{
+													Type: "string",
+												},
+												"source": v1beta1.JSONSchemaProps{
+													Type:       "object",
+													Properties: map[string]v1beta1.JSONSchemaProps{},
+												},
+												"type": v1beta1.JSONSchemaProps{
+													Type: "string",
+												},
+											},
+											Required: []string{
+												"name",
+												"type",
+												"source",
+											}},
+									},
 								},
 							},
 							Required: []string{
