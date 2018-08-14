@@ -98,9 +98,6 @@ var (
 						"spec": v1beta1.JSONSchemaProps{
 							Type: "object",
 							Properties: map[string]v1beta1.JSONSchemaProps{
-								"concourseUrl": v1beta1.JSONSchemaProps{
-									Type: "string",
-								},
 								"jobs": v1beta1.JSONSchemaProps{
 									Type:       "object",
 									Properties: map[string]v1beta1.JSONSchemaProps{},
@@ -113,7 +110,6 @@ var (
 							Required: []string{
 								"resources",
 								"jobs",
-								"concourseUrl",
 							}},
 						"status": v1beta1.JSONSchemaProps{
 							Type: "object",

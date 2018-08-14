@@ -33,7 +33,6 @@ type PipelineSpec struct {
 
 	Resources    runtime.RawExtension `json:"resources"`
 	Jobs         runtime.RawExtension `json:"jobs"`
-	ConcourseUrl string               `json:"concourseUrl"`
 }
 
 // PipelineStatus defines the observed state of Pipeline

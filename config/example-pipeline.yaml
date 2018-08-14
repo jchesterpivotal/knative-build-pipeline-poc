@@ -4,7 +4,6 @@ kind: Pipeline
 metadata:
   name: pipeline.example.com
 spec:
-  concourseUrl: https://knative.ci.cf-app.com
   resources:
   - name: git-repo
     type: git

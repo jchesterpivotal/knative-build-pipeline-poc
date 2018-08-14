@@ -142,6 +142,8 @@ spec:
               secretKeyRef:
                 name: pipeline-controller-concourse-user
                 key: password
+          - name: CONCOURSE_URL
+            value: https://knative.ci.cf-app.com
       terminationGracePeriodSeconds: 10
   updateStrategy: {}
 status:
