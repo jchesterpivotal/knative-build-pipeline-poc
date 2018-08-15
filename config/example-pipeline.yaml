@@ -11,18 +11,21 @@ spec:
       uri: https://github.com/concourse-courses/002-basics-of-reading-a-concourse-pipeline.git
   jobs:
   - name: successful-job
+    public: true
     plan:
     - get: git-repo
     - task: job-task
       file: git-repo/tasks/successful/task.yml
 
   - name: failed-job
+    public: true
     plan:
     - get: git-repo
     - task: job-task
       file: git-repo/tasks/failed/task.yml
 
   - name: flaky-job
+    public: true
     plan:
     - get: git-repo
     - task: job-task

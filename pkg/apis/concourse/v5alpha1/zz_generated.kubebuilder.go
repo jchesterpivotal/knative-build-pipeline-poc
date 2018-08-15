@@ -111,9 +111,13 @@ var (
 													Type:       "object",
 													Properties: map[string]v1beta1.JSONSchemaProps{},
 												},
+												"public": v1beta1.JSONSchemaProps{
+													Type: "boolean",
+												},
 											},
 											Required: []string{
 												"name",
+												"public",
 												"plan",
 											}},
 									},

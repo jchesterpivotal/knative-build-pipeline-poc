@@ -36,13 +36,14 @@ type PipelineSpec struct {
 }
 
 type ConcourseJob struct {
-	Name string                 `json:"name"`
-	Plan runtime.RawExtension `json:"plan"`
+	Name   string               `json:"name"`
+	Public bool                 `json:"public"`
+	Plan   runtime.RawExtension `json:"plan"`
 }
 
 type ConcourseResource struct {
-	Name   string                 `json:"name"`
-	Type   string                 `json:"type"`
+	Name   string               `json:"name"`
+	Type   string               `json:"type"`
 	Source runtime.RawExtension `json:"source"`
 }
 
